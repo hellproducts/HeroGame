@@ -1,0 +1,19 @@
+{
+    "name": "app/emagia",
+    "description": "Simple game which takes Orderus to battle various beasts",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\Emagia\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bogdan Alexandru Cioropina",
+            "email": "bogdan.cioropina@gmail.com"
+        }
+    ],
+    "require": {
+        "friendsofphp/php-cs-fixer": "^3.8"
+    }
+}
