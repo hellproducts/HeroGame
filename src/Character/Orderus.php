@@ -14,28 +14,28 @@ class Orderus extends Generic implements SkillSet
         $damage = $this->strength - $opponent->getDefence();
 
         $opponent->setHealth($opponent->getHealth() - (2 * $damage));
-        return sprintf('%s used RapidStrike. %s health is now %f', $this->toString(), $opponent->toString(), $opponent->getHealth());
+        return sprintf('%s used RapidStrike, damaging %s by %d points. %s health is now %d', $this->toString(), $opponent->toString(), $damage, $opponent->toString(), $opponent->getHealth());
     }
 
     public function magicShield(Generic $opponent): string
     {
-        $damage = ($opponent->getStrength() - $this->defence) / 2;
+        $damage = (int)(($opponent->getStrength() - $this->defence) / 2);
         $this->health = $this->health - $damage;
 
-        return sprintf('%s used MagicShield and took only half damage (%f). Health is now %f', $this->toString(), $damage, $this->getHealth());
+        return sprintf('%s used MagicShield and took only half damage (%d). Health is now %d', $this->toString(), $damage, $this->getHealth());
     }
 
     public function attack(Generic $enemy): string
     {
-        $message = $this->toString().' attacks. ';
-        if ($enemy->defend($enemy)[0]) {
-            return $message.$enemy->toString().' got lucky and the attack failed. Health is still '. $enemy->getHealth();
+        $message = $this->toString() . ' attacks. ';
+        if ($enemy->defend($this)[0]) {
+            return $message . $enemy->toString() . ' got lucky and the attack failed. Health is still ' . $enemy->getHealth();
         } else {
             $chance = mt_rand(1, 100);
             if (self::RAPID_STRIKE_CHANCE >= $chance) {
-                return $message.$this->rapidStrike($enemy);
+                return $message . $this->rapidStrike($enemy);
             } else {
-                return $message.parent::attack($enemy);
+                return $message . parent::attack($enemy);
             }
         }
     }
@@ -44,7 +44,7 @@ class Orderus extends Generic implements SkillSet
     {
         $chance = mt_rand(1, 100);
         if ($this->getLuck() >= $chance) {
-            return [true, sprintf($this->toString().' got lucky and the attack failed')];
+            return [true, sprintf($this->toString() . ' got lucky and the attack failed')];
         }
 
         $useMagicShield = rand(1, 100);

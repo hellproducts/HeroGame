@@ -31,7 +31,7 @@ try {
 
         $game = new Game($orderus, $beast);
 
-        $game->fight();
+        $game->fight($orderus, $beast);
         
     }
 } catch (\Exception $exception) {

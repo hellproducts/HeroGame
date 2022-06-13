@@ -4,7 +4,7 @@ namespace App\Emagia\Character;
 
 abstract class Generic
 {
-    protected float $health;
+    protected int $health;
 
     protected int $strength;
 
@@ -18,15 +18,15 @@ abstract class Generic
     /**
      * Get the value of health
      */
-    public function getHealth(): float
+    public function getHealth(): int
     {
-        return round($this->health, 0);
+        return $this->health;
     }
 
     /**
      * Set the value of health
      */
-    public function setHealth(float $health): self
+    public function setHealth(int $health): self
     {
         $this->health = $health;
 
@@ -110,7 +110,7 @@ abstract class Generic
         // Damage = Attacker strength – Defender defence
         $damage = $this->strength - $enemy->getDefence();
         $enemy->setHealth($enemy->getHealth() - $damage);
-        return sprintf('%s took %d damage. %s has now %f health.', $enemy->toString(), $damage, $enemy->toString(), $enemy->getHealth());
+        return sprintf('%s took %d damage. %s now has %d health.', $enemy->toString(), $damage, $enemy->toString(), $enemy->getHealth());
     }
     
     abstract public function defend(Generic $enemy): array;

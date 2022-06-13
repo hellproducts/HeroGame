@@ -14,7 +14,7 @@ class Beast extends Generic
     public function attack(Generic $enemy): string
     {
         $message = $this->toString().' attacks. ';
-        $defend = $enemy->defend($enemy);
+        $defend = $enemy->defend($this);
         if (true === $defend[0]) {
             return $message.$defend[1];
         }

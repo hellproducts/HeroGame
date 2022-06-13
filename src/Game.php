@@ -10,24 +10,14 @@ use App\Emagia\Character\Orderus;
 
 class Game
 {
-    private Orderus $orderus;
-    private Beast $beast;
-
     private const ROUNDS = 20;
 
-    public function __construct(Orderus $orderus, Beast $beast)
+    public function fight(Orderus $orderus, Beast $beast): void
     {
-        $this->orderus = $orderus;
-        $this->beast = $beast;
-    }
-
-
-    public function fight(): void
-    {
-        $fighters = $this->determineFirstBlood();
+        $fighters = $this->determineFirstBlood($orderus, $beast);
         $this->log($fighters[0]->toString() . ' will attack first');
         for ($i = 0; $i < self::ROUNDS; $i++) {
-            $this->log('Rount #'. ($i+1). '!');
+            $this->log('Turn #'. ($i+1). '!');
             $log = ($fighters[0]->attack($fighters[1]));
             $this->log($log);
             if (!$fighters[1]->isAlive()) {
@@ -52,17 +42,17 @@ class Game
         }
     }
 
-    private function determineFirstBlood(): array
+    private function determineFirstBlood(Orderus $orderus, Beast $beast): array
     {
-        if ($this->orderus->getSpeed() > $this->beast->getSpeed()) {
-            return [$this->orderus, $this->beast];
+        if ($orderus->getSpeed() > $beast->getSpeed()) {
+            return [$orderus, $beast];
         } else {
-            return [$this->beast, $this->orderus];
+            return [$beast, $orderus];
         }
-        if ($this->orderus->getLuck() > $this->beast->getLuck()) {
-            return [$this->orderus, $this->beast];
+        if ($orderus->getLuck() > $beast->getLuck()) {
+            return [$orderus, $beast];
         } else {
-            return [$this->beast, $this->orderus];
+            return [$beast, $orderus];
         }
     }
 
