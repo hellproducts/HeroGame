@@ -106,15 +106,15 @@ abstract class Generic
     }
 
     public function attack(Generic $enemy): string
-    {   
+    {
         // Damage = Attacker strength – Defender defence
         $damage = $this->strength - $enemy->getDefence();
         $enemy->setHealth($enemy->getHealth() - $damage);
         return sprintf('%s took %d damage. %s now has %d health.', $enemy->toString(), $damage, $enemy->toString(), $enemy->getHealth());
     }
-    
+
     abstract public function defend(Generic $enemy): array;
-    
+
     abstract public function toString(): string;
 
     public static function loadCharacter(string $class, array $specs): self
