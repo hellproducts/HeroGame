@@ -47,7 +47,7 @@ class Orderus extends Generic implements SkillSet
             return [true, sprintf($this->toString() . ' got lucky and the attack failed')];
         }
 
-        $useMagicShield = rand(1, 100);
+        $useMagicShield = mt_rand(1, 100);
         if (self::SHIELD_CHANCE >= $useMagicShield) {
             return [true, $this->magicShield($enemy)];
         }
