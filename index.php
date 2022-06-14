@@ -10,6 +10,7 @@ use App\Emagia\Game;
 define('DS', DIRECTORY_SEPARATOR);
 
 define('CHARACTERS_MAP_TEMPLATE', __DIR__.DS.'fixtures'.DS.'character.json');
+define('GAME_SETUP', __DIR__.DS.'fixtures'.DS.'game.json');
 define('STORY', __DIR__.DS.'fixtures'.DS.'story');
 
 require_once __DIR__ . DS . 'vendor' . DS . 'autoload.php';
@@ -26,13 +27,15 @@ try {
         $reader = $readerFactory->createReader(DataReaderType::JSON);
         $data = $reader->convertFromString($json);
 
+        $gameSettingsJson = file_get_contents(GAME_SETUP);
+        $gameSettings = $reader->convertFromString($gameSettingsJson);
+
         $orderus = Orderus::loadCharacter(Orderus::class, $data['orderus']);
         $beast = Beast::loadCharacter(Beast::class, $data['beast']);
 
-        $game = new Game($orderus, $beast);
+        $game = new Game($gameSettings);
 
         $game->fight($orderus, $beast);
-        
     }
 } catch (\Exception $exception) {
     echo $exception->getMessage();

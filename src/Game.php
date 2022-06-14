@@ -7,16 +7,27 @@ namespace App\Emagia;
 use App\Emagia\Character\Beast;
 use App\Emagia\Character\Generic;
 use App\Emagia\Character\Orderus;
+use App\Emagia\Exception\CannotDetermineFirstBloodException;
+use App\Emagia\Exception\MissingGameConfigException;
 
 class Game
 {
-    private const ROUNDS = 20;
+    private int $rounds;
+
+    public function __construct(array $config)
+    {
+        if (!isset($config['rounds'])) {
+            throw new MissingGameConfigException('Missing rounds definition. Game cannot continue');
+        }
+
+        $this->rounds = $config['rounds'];
+    }
 
     public function fight(Orderus $orderus, Beast $beast): void
     {
         $fighters = $this->determineFirstBlood($orderus, $beast);
         $this->log($fighters[0]->toString() . ' will attack first');
-        for ($i = 0; $i < self::ROUNDS; $i++) {
+        for ($i = 0; $i < $this->rounds; $i++) {
             $this->log('Turn #'. ($i+1). '!');
             $log = ($fighters[0]->attack($fighters[1]));
             $this->log($log);
@@ -55,7 +66,6 @@ class Game
             return [$beast, $orderus];
         }
     }
-
     private function log(string $message): void
     {
         echo $message . PHP_EOL;

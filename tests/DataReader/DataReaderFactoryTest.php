@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 class DataReaderFactoryTest extends TestCase
 {
-
     /** @var DataReaderFactory */
     private $factory;
 
@@ -32,5 +31,4 @@ class DataReaderFactoryTest extends TestCase
         $this->expectException(DataReaderFactoryException::class);
         $reader = $this->factory->createReader("awesome-reader");
     }
-
 }
